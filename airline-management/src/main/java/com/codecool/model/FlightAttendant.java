@@ -6,13 +6,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlightAttendant extends AirlineEmployee{
+public class FlightAttendant extends AirlineEmployee {
     private List<Language> languageList;
+    private Language flightLanguage;
 
 
-    public FlightAttendant(String name, LocalDate birthDate, String phoneNumber, double salary, boolean isReadyToFly) {
-        super(name, birthDate,phoneNumber, salary, isReadyToFly);
+    public FlightAttendant(String name, LocalDate birthDate, String phoneNumber, double salary, Language flightLanguage) {
+        super(name, birthDate, phoneNumber, salary);
         this.languageList = new ArrayList<>();
+        this.flightLanguage = flightLanguage;
     }
 
     public List<Language> getLanguageList() {
@@ -23,10 +25,15 @@ public class FlightAttendant extends AirlineEmployee{
         this.languageList = languageList;
     }
 
-    public void addLanguage(Language language){
+    public void addLanguage(Language language) {
         languageList.add(language);
     }
 
+
+    @Override
+    boolean isReadyToFly() {
+        return true;
+    }
 
     @Override
     public String toString() {
@@ -35,7 +42,6 @@ public class FlightAttendant extends AirlineEmployee{
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", birthDate=" + birthDate +
-                ", isReadyToFly=" + isReadyToFly +
                 ", salary=" + salary +
                 '}';
     }

@@ -1,8 +1,10 @@
 package com.codecool.model;
 
 import com.codecool.enums.Language;
+import com.codecool.enums.PilotType;
 
-import java.util.*;
+import java.util.List;
+import java.util.Random;
 
 public class Flight {
     private Random random = new Random();
@@ -17,7 +19,7 @@ public class Flight {
         this.id = id;
         this.language = language;
         this.pilotList = pilotList;
-        this.numberOfPassengers = random.nextInt(250-100)+100 ;
+        this.numberOfPassengers = random.nextInt(250 - 100) + 100;
         this.flightAttendantList = flightAttendantList;
     }
 
@@ -57,41 +59,49 @@ public class Flight {
         this.flightAttendantList = flightAttendantList;
     }
 
-    public void addFlightAttendant(FlightAttendant flightAttendant){
+    public void addFlightAttendant(FlightAttendant flightAttendant) {
         flightAttendantList.add(flightAttendant);
     }
 
-    public void addPilot(Pilot pilot){
+    public void addPilot(Pilot pilot) {
         pilotList.add(pilot);
     }
 
-    private boolean checkNumberOfEmployees(){
+    private boolean pilotListContainsType(PilotType pilotType) {
+        boolean result = pilotList.stream().anyMatch(pilot -> pilot.getPilotType().equals(pilotType));
+        if (!result) {
+            System.out.println("ERROR: Pilot list does not contain pilot and co-pilot");
+        }
+        return result;
+    }
+
+    private boolean checkNumberOfEmployees() {
         return flightAttendantList.size() == 3 && pilotList.size() == 2;
     }
 
-    private boolean everyEmployeeIsReady(){
+    private boolean everyEmployeeIsReady() {
         long sizeOfFilteredFlightAttendance = flightAttendantList.stream()
-                .filter(flightAttendant -> flightAttendant.isReadyToFly)
+                .filter(flightAttendant -> flightAttendant.isReadyToFly())
                 .count();
         long sizeOfFilteredPilots = pilotList.stream()
-                .filter(pilot -> pilot.isReadyToFly)
+                .filter(pilot -> pilot.isReadyToFly())
                 .count();
 
         return sizeOfFilteredPilots == pilotList.size() && sizeOfFilteredFlightAttendance == flightAttendantList.size();
     }
 
-    private boolean checkAnalogCompass(){
+    private boolean checkAnalogCompass() {
         long sizeOfFilteredPilots = pilotList.stream()
                 .filter(Pilot::hasAnalogCompass)
                 .count();
         return sizeOfFilteredPilots == pilotList.size();
     }
 
-    private boolean checkNumberOFPassengers(){
+    private boolean checkNumberOFPassengers() {
         return numberOfPassengers < 220;
     }
 
-    private boolean checkLanguage(){
+    private boolean checkLanguage() {
         long sizeOfFilteredFlightAttendance = flightAttendantList.stream()
                 .filter(flightAttendant -> flightAttendant.getLanguageList().contains(language))
                 .count();
@@ -99,26 +109,32 @@ public class Flight {
         return sizeOfFilteredFlightAttendance == flightAttendantList.size();
     }
 
-    public boolean checkFlight(){
+    public boolean checkFlight() {
         System.out.println("Flight number " + id);
-        if(checkNumberOfEmployees() && everyEmployeeIsReady() && checkAnalogCompass() && checkNumberOFPassengers() && checkLanguage()){
-            System.out.println("PASSED");
+        if (checkNumberOfEmployees()
+                && everyEmployeeIsReady()
+                && checkAnalogCompass()
+                && checkNumberOFPassengers()
+                && checkLanguage()
+                && pilotListContainsType(PilotType.PILOT)
+                && pilotListContainsType(PilotType.CO_PILOT)) {
+            System.out.println("PASS");
             return true;
         } else {
-            System.out.println("FAILED:");
-            if(!checkNumberOfEmployees()){
+            System.out.println("FAIL");
+            if (!checkNumberOfEmployees()) {
                 System.out.println("Number of employees is not valid");
             }
-            if(!everyEmployeeIsReady()){
+            if (!everyEmployeeIsReady()) {
                 System.out.println("The employees are not ready");
             }
-            if(!checkAnalogCompass()){
+            if (!checkAnalogCompass()) {
                 System.out.println("The pilots do not have analog compass");
             }
-            if(!checkNumberOFPassengers()){
+            if (!checkNumberOFPassengers()) {
                 System.out.println("The number of passengers is not valid");
             }
-            if(!checkLanguage()){
+            if (!checkLanguage()) {
                 System.out.println("Flight attendances do not speak the flight language");
             }
         }

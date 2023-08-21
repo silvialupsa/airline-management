@@ -1,22 +1,17 @@
 package com.codecool.model;
 
-import com.codecool.enums.Language;
-
 import java.time.LocalDate;
-import java.util.*;
 
 public abstract class AirlineEmployee {
-    public final String name;
-    public String phoneNumber;
-    public final LocalDate birthDate;
-    public boolean isReadyToFly;
-    public double salary;
+    protected final String name;
+    protected String phoneNumber;
+    protected final LocalDate birthDate;
+    protected double salary;
 
 
-    protected AirlineEmployee(String name, LocalDate birthDate,String phoneNumber, double salary, boolean isReadyToFly) {
+    protected AirlineEmployee(String name, LocalDate birthDate, String phoneNumber, double salary) {
         this.name = name;
         this.birthDate = birthDate;
-        this.isReadyToFly = isReadyToFly;
         this.phoneNumber = phoneNumber;
         this.salary = salary;
     }
@@ -29,6 +24,7 @@ public abstract class AirlineEmployee {
         return birthDate;
     }
 
+    abstract boolean isReadyToFly();
 
     @Override
     public String toString() {
@@ -36,7 +32,6 @@ public abstract class AirlineEmployee {
                 "name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", birthDate=" + birthDate +
-                ", isReadyToFly=" + isReadyToFly +
                 ", salary=" + salary +
                 '}';
     }

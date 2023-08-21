@@ -1,21 +1,17 @@
 package com.codecool.model;
 
-import com.codecool.enums.Language;
 import com.codecool.enums.PilotType;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class Pilot extends AirlineEmployee {
     private PilotType pilotType;
     private final boolean hasAnalogCompass;
-    public PilotType currentPosition;
 
-    public Pilot(String name, LocalDate birthDate, PilotType pilotType,String phoneNumber, double salary, boolean hasAnalogCompass, PilotType currentPosition, boolean isReadyToFly) {
-        super(name, birthDate,phoneNumber, salary, isReadyToFly);
+    public Pilot(String name, LocalDate birthDate, PilotType pilotType, String phoneNumber, double salary, boolean hasAnalogCompass) {
+        super(name, birthDate, phoneNumber, salary);
         this.pilotType = pilotType;
-        this.hasAnalogCompass= hasAnalogCompass;
-        this.currentPosition = currentPosition;
+        this.hasAnalogCompass = hasAnalogCompass;
     }
 
     public PilotType getPilotType() {
@@ -28,6 +24,11 @@ public class Pilot extends AirlineEmployee {
 
     public boolean hasAnalogCompass() {
         return hasAnalogCompass;
+    }
+
+    @Override
+    boolean isReadyToFly() {
+        return true;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.codecool.enums;
 
 public enum PilotType {
-    Pilot,
-    Co_pilot
+    PILOT,
+    CO_PILOT
 }
